@@ -1,0 +1,16 @@
+---
+- hosts: dns_lokal
+  vars_prompt:
+# minta password dan domain
+    - name: password
+      prompt: "Sudo password "
+    - name: domain
+      prompt: "Nama domain "
+      private: false
+  vars:
+    ansible_become_password: "{{password}}" #set sudo password
+  tasks:
+  - name: wipe DNS cache
+    command: "rec_control wipe-cache {{domain}}" # eksekusi perintah
+    become: true # jadi sudo su
+    changed_when: false #hilangkan status changed

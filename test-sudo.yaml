@@ -1,0 +1,19 @@
+---
+- hosts: dns_lokal
+  vars_prompt:
+    - name: password
+      prompt: "sudo password "
+  vars:
+    ansible_become_password: "{{password}}"
+  tasks:
+#  - name: test sudo
+#    service:
+#      name: ntp
+#      state: started
+#    become: true
+    - become: true
+      command: id -u
+      register: id_output
+
+    - assert:
+        that: id_output.stdout == '0'
